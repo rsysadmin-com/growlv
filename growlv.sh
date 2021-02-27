@@ -23,7 +23,7 @@
 #
 
 usage() {
-	echo "$(basename $0) size+units lv"
+	echo "Usage: $(basename $0) size+units lv"
 	cat << EOF
 	
 input units:
@@ -62,6 +62,12 @@ function returnStatus {
 }
 
 
+if [[ $# -eq 0 ]]
+then
+	usage
+fi
+
+
 lv_size=$1
 lv_seek=$2
 if [ -z $lv_seek ]
@@ -84,11 +90,6 @@ then
 fi
 lv_name="/dev/mapper/${root_lv}-${lv_seek}"
 fstype=$(df -T | grep $lv_name | awk '{ print $2 }')
-
-if [[ $# -eq 0 ]]
-then
-	usage
-fi
 
 echo -e "\ngrowlv.sh"
 echo -e "martinm@rsysadmin.com\n"
